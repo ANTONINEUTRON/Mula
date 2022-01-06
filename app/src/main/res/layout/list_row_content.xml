@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="414dp"
+        android:layout_height="87dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp">
+
+            <TextView
+                android:id="@+id/txtDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/expense_title"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtDescription"
+                android:text="@string/expense_amount" />
+
+            <TextView
+                android:id="@+id/txtdeductedBalance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtAmount"
+                android:inputType="numberDecimal"
+                android:text="@string/remaining_balance"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/allocationDate"
+                android:text="date: 4 May 2020"
+                android:layout_alignParentRight="true"
+                android:layout_alignBottom="@+id/txtdeductedBalance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            
+            <Button
+                android:id="@+id/listEditButton"
+                android:layout_alignStart="@id/allocationDate"
+                android:layout_alignBottom="@id/txtDescription"
+                android:background="@android:drawable/ic_menu_edit"
+                android:layout_width="25dp"
+                android:layout_height="25dp" />
+
+            <Button
+                android:id="@+id/listDeleteButton"
+                android:layout_toEndOf="@id/listEditButton"
+                android:layout_alignBottom="@id/txtDescription"
+                android:layout_marginStart="20dp"
+                android:padding="12dp"
+                android:background="@android:drawable/ic_delete"
+                android:layout_width="25dp"
+                android:layout_height="25dp" />
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>
