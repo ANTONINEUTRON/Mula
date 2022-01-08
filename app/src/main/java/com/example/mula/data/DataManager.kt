@@ -52,7 +52,7 @@ class DataManager(context: Context) {
                 "'" + initial_balance + "'" +
                 ")";
 
-        Log.i("com.example.mula.insert() = ", query)
+        Log.i("com.example.mula.insert()", query)
 
         db.execSQL(query)
     }

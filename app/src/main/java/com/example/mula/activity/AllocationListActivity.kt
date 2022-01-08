@@ -17,8 +17,7 @@ import com.example.mula.data.DataManager
 import com.example.mula.model.Allocation
 import com.example.mula.ui.NewAllocationDialog
 import com.example.mula.ui.ShowAllocationDialog
-import kotlinx.android.synthetic.main.activity_allocation_list.*
-
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class AllocationListActivity: AppCompatActivity() {
 
@@ -33,7 +32,8 @@ class AllocationListActivity: AppCompatActivity() {
 
         // Database and UI code goes here todo: Convert to DataManager function
         val dm = DataManager(this)
-        val remainingBalance = findViewById<EditText>(R.id.txtRemainingBalance) as TextView
+        val remainingBalance = findViewById<TextView>(R.id.txtRemainingBalance) as TextView
+        val fab: FloatingActionButton = findViewById(R.id.fab)
 
         // Create and initialize a Cursor with all the results in
         val c = dm.selectAll()
