@@ -7,52 +7,40 @@
     android:layout_height="match_parent"
     tools:context=".activity.MainActivity">
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/enterBalanceId"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:autofillHints="@string/expense_hint"
-        android:defaultFocusHighlightEnabled="false"
-        android:ems="10"
-        android:hint="@string/hint_input_balance"
-        android:inputType="numberSigned|numberDecimal"
-        android:textAlignment="viewStart"
-        android:textSize="20sp"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/enter_balance_text"
-        android:layout_width="wrap_content"
+        android:id="@+id/no_balance_text"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="82dp"
-        android:text="@string/enter_balance"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/enterBalanceId"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:textSize="@dimen/text_size_22"
+        android:text="NO BALANCE YET!"
+        android:textColor="@color/colorPrimaryDark"
+        android:gravity="center"
+        android:padding="10dp" />
 
-    <Button
-        android:id="@+id/submit_button"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/enterBalanceId"
+        app:layout_constraintTop_toTopOf="parent">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/balance_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="5dp" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="89dp"
-        android:text="@string/submit_button"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:srcCompat="@android:drawable/ic_input_add" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

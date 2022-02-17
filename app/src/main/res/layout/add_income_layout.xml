@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="5"
+        app:layout_constraintTop_toTopOf="parent"
+        android:paddingRight="@dimen/padding_10"
+        android:layout_marginBottom="@dimen/margin_10"
+        android:padding="@dimen/margin_10"
+        android:background="@color/colorAccent">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:textSize="20dp"
+            android:textColor="@color/colorWhite"
+            android:text="Add Income"/>
+
+        <ImageButton
+            android:id="@+id/close_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_baseline_cancel"/>
+    </LinearLayout>
+    <EditText
+        android:id="@+id/enterBalanceId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autofillHints="@string/expense_hint"
+        android:defaultFocusHighlightEnabled="false"
+        android:ems="10"
+        android:hint="@string/hint_input_balance"
+        android:inputType="numberSigned|numberDecimal"
+        android:textAlignment="viewStart"
+        android:layout_marginTop="@dimen/margin_10"
+        app:layout_constraintTop_toBottomOf="@id/header"
+        app:layout_constraintBottom_toTopOf="@id/submit_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <Button
+        android:id="@+id/submit_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:text="@string/submit_button"
+        android:textColor="@color/colorWhite"
+        android:backgroundTint="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

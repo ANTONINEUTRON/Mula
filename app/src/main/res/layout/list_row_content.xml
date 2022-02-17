@@ -7,11 +7,10 @@
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="414dp"
-        android:layout_height="87dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -36,11 +35,12 @@
                 android:text="@string/expense_amount" />
 
             <TextView
-                android:id="@+id/txtdeductedBalance"
+                android:id="@+id/txtDeductedBalance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/txtAmount"
+                android:layout_below="@id/txtDescription"
                 android:inputType="numberDecimal"
+                android:layout_marginTop="15dp"
                 android:text="@string/remaining_balance"
                 android:textStyle="italic" />
 
@@ -48,11 +48,11 @@
                 android:id="@+id/allocationDate"
                 android:text="date: 4 May 2020"
                 android:layout_alignParentRight="true"
-                android:layout_alignBottom="@+id/txtdeductedBalance"
+                android:layout_alignBottom="@+id/txtDeductedBalance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             
-            <Button
+            <ImageButton
                 android:id="@+id/listEditButton"
                 android:layout_alignStart="@id/allocationDate"
                 android:layout_alignBottom="@id/txtDescription"
@@ -60,7 +60,7 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/listDeleteButton"
                 android:layout_toEndOf="@id/listEditButton"
                 android:layout_alignBottom="@id/txtDescription"

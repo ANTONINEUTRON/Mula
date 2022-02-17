@@ -3,77 +3,71 @@ package com.example.mula.activity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mula.R
-import com.example.mula.data.AllocationAdapter
-import com.example.mula.data.DataManager
-import com.example.mula.model.Allocation
-import com.example.mula.ui.NewAllocationDialog
-import com.example.mula.ui.ShowAllocationDialog
+import com.example.mula.adapter.AllocationAdapter
+import com.example.mula.dialog.NewAllocationDialog
+import com.example.mula.view_model.AllocationListViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class AllocationListActivity: AppCompatActivity() {
 
-    private var allocationList = ArrayList<Allocation>()
-    private var recyclerView:RecyclerView? = null
-    private var adapter: AllocationAdapter? = null
+//    private lateinit var allocationList = ArrayList<Allocation>()
+    private lateinit var recyclerView:RecyclerView
+    private lateinit var fab: FloatingActionButton
+    private lateinit var allocationListViewModel: AllocationListViewModel
+    private lateinit var remainingBalTextView: TextView
+    private var id: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_allocation_list)
 
+        val factory = ViewModelProvider.AndroidViewModelFactory(application)
+        allocationListViewModel = ViewModelProvider(this,factory).get(AllocationListViewModel::class.java)
 
-        // Database and UI code goes here todo: Convert to DataManager function
-        val dm = DataManager(this)
-        val remainingBalance = findViewById<TextView>(R.id.txtRemainingBalance) as TextView
-        val fab: FloatingActionButton = findViewById(R.id.fab)
+        //Initialize UI components
+        fab = findViewById(R.id.fab)
+        recyclerView = findViewById(R.id.recyclerView)
+        remainingBalTextView = findViewById(R.id.txtRemainingBalance)
 
-        // Create and initialize a Cursor with all the results in
-        val c = dm.selectAll()
+        //Receive id from MainActivity
+        id = intent.extras?.getInt("BALANCE_ID")
 
-        //A String to hold all the text
-        var list = ""
+        if(id != null) {
+            //Display Balance
+            allocationListViewModel.getIncomeById(id!!).observe(this, Observer { balance ->
+                remainingBalTextView.text = "$${balance.amount}"
+            })
 
-        //Loop through the results in the Cursor
-        while (c.moveToNext()) {
-            //Add results to String
-            //with a formatting
-            list += c.getString(1)
+            //Display list of Allocation
+            allocationListViewModel.getAllocationById(id!!).observe(this, Observer{ list ->
+                recyclerView!!.layoutManager = LinearLayoutManager(this)
+                recyclerView!!.itemAnimator = DefaultItemAnimator()
+                // Add a neat dividing line between items in the list
+                recyclerView!!.addItemDecoration(
+                    DividerItemDecoration(this, LinearLayoutManager.VERTICAL)
+                )
+
+                // set the adapter
+                recyclerView!!.adapter = AllocationAdapter(list, allocationListViewModel)
+
+            })
         }
 
-        //Display the string in the TextView
-        remainingBalance.text = "$" + list //<- FIX WARNING
 
         // Add button function
         fab.setOnClickListener { view ->
-            val dialog = NewAllocationDialog()
+            val dialog = NewAllocationDialog(allocationListViewModel, id!!)
             dialog.show(supportFragmentManager, "")
-
         }
-
-        recyclerView = findViewById<View>(R.id.recyclerView) as RecyclerView
-
-        adapter = AllocationAdapter(this, allocationList)
-        val layoutManager = LinearLayoutManager(applicationContext)
-
-        recyclerView!!.layoutManager = layoutManager
-        recyclerView!!.itemAnimator = DefaultItemAnimator()
-
-        // Add a neat dividing line between items in the list
-        recyclerView!!.addItemDecoration(
-            DividerItemDecoration(this, LinearLayoutManager.VERTICAL)
-        )
-
-        // set the adapter
-        recyclerView!!.adapter = adapter
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -94,18 +88,18 @@ class AllocationListActivity: AppCompatActivity() {
 
 
 
-    fun createNewAllocation(n: Allocation) {
-        // Temporary code
-        //tempNote = n
-        allocationList.add(n)
-        adapter!!.notifyDataSetChanged()
-    }
+//    fun createNewAllocation(n: Allocation) {
+//        // Temporary code
+//        //tempNote = n
+//        allocationList.add(n)
+//        adapter!!.notifyDataSetChanged()
+//    }
 
-    fun showAllocation(allocationToShow: Int) {
-        val dialog = ShowAllocationDialog()
-        dialog.sendAllocationSelected(allocationList[allocationToShow])
-        dialog.show(supportFragmentManager, "")
-    }
+//    fun showAllocation(allocationToShow: Int) {
+//        val dialog = ShowAllocationDialog()
+//        dialog.sendAllocationSelected(allocationList[allocationToShow])
+//        dialog.show(supportFragmentManager, "")
+//    }
 
 }
 

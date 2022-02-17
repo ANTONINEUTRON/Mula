@@ -8,7 +8,7 @@
     <string name="hint_input_balance">Enter Amount</string>
     <string name="submit_button">Submit</string>
     <string name="balance_submitted_toast">Balance Submitted</string>
-    <string name="header_balance">BALANCE</string>
+    <string name="header_balance">BALANCE:</string>
     <string name="add_expense">Add Expense</string>
 
     <!-- list_row_content -->
