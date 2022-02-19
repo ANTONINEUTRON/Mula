@@ -18,7 +18,7 @@
 
 
     <!-- EXPERIMENTAL BELOW -->
-    <string name="action_settings">Settings</string>
+    <string name="stats">Stats</string>
     <string name="action_add">add</string>
     <string name="expense_hint">$0.00</string>
     <string name="idea_text">Idea</string>
@@ -35,6 +35,6 @@
     <string name="title_activity_list_display">ListDisplayActivity</string>
 
     <!-- new_allocation_dialog -->
-    <string name="expense_description_hint">Enter Description </string>
+    <string name="label">Enter Label </string>
     <string name="expense_amount_hint"> Enter Amount</string>
 </resources>

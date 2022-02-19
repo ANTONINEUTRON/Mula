@@ -8,7 +8,7 @@ import java.math.BigDecimal
 data class Allocation(
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0,
-    var description: String = "",
+    var label: String = "",
     var amount: Double = 0.0,
     var deductedBalance: Double = 0.0,
     var date: Long = System.currentTimeMillis(),

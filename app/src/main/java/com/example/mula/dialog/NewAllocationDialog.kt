@@ -1,6 +1,8 @@
 package com.example.mula.dialog
 
+import android.app.Application
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -8,14 +10,24 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.example.mula.R
 import com.example.mula.data.model.Allocation
+import com.example.mula.data.model.Income
 import com.example.mula.view_model.AllocationListViewModel
 
 
-class  NewAllocationDialog(val allocationListViewModel: AllocationListViewModel, val balanceId: Int, val allocation: Allocation? = null) : DialogFragment() {
+class  NewAllocationDialog( val income: Income,
+    val allocation: Allocation? = null): DialogFragment() {//Third argument serves as a check if update is to be made
+    //instantiate viewmodel
+    lateinit var factory: ViewModelProvider.AndroidViewModelFactory
+    lateinit var allocationListViewModel: AllocationListViewModel
+
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        //instantiate viewmodel
+        factory = ViewModelProvider.AndroidViewModelFactory(activity!!.applicationContext as Application)
+        allocationListViewModel = ViewModelProvider(this,factory).get(AllocationListViewModel::class.java)
         // All the rest of the code goes here
         val builder = AlertDialog.Builder(activity!!)
 
@@ -33,7 +45,7 @@ class  NewAllocationDialog(val allocationListViewModel: AllocationListViewModel,
         * */
         allocation?.let {
             //if null set value for editing
-            editDescription.setText(it.description)
+            editDescription.setText(it.label)
             editAmount.setText(it.amount.toString())
             editAmount.isEnabled = false
         }
@@ -67,7 +79,7 @@ class  NewAllocationDialog(val allocationListViewModel: AllocationListViewModel,
     private fun updateAllocation(description: String, amount: Double) {
         allocation?.let{
             it.amount = amount
-            it.description = description
+            it.label = description
 
             addAllocation(it)
         }
@@ -79,14 +91,16 @@ class  NewAllocationDialog(val allocationListViewModel: AllocationListViewModel,
 
         // Set its properties to match the
         // User's entries on the form
-        newAllocation.description = description
+        newAllocation.label = description
         newAllocation.amount = amount
-        newAllocation.balanceId = balanceId
+        newAllocation.balanceId = income.id
 
         addAllocation(newAllocation)
     }
 
     private fun addAllocation(newAllocation: Allocation) {
+        //Set deducted balance
+        newAllocation.deductedBalance = income.amount - newAllocation.amount
         //get balance instance
         allocationListViewModel.getIncomeById(newAllocation.balanceId).observe(this, Observer { income ->
             //get income

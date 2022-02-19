@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mula.R
 import com.example.mula.adapter.AllocationAdapter
+import com.example.mula.data.model.Income
+import com.example.mula.dialog.IncomeGraphDialogFragment
 import com.example.mula.dialog.NewAllocationDialog
 import com.example.mula.view_model.AllocationListViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -25,6 +27,7 @@ class AllocationListActivity: AppCompatActivity() {
     private lateinit var allocationListViewModel: AllocationListViewModel
     private lateinit var remainingBalTextView: TextView
     private var id: Int? = null
+    private var income: Income? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,8 +46,9 @@ class AllocationListActivity: AppCompatActivity() {
 
         if(id != null) {
             //Display Balance
-            allocationListViewModel.getIncomeById(id!!).observe(this, Observer { balance ->
-                remainingBalTextView.text = "$${balance.amount}"
+            allocationListViewModel.getIncomeById(id!!).observe(this, Observer { income ->
+                this.income = income
+                remainingBalTextView.text = "$${income.amount}"
             })
 
             //Display list of Allocation
@@ -57,7 +61,7 @@ class AllocationListActivity: AppCompatActivity() {
                 )
 
                 // set the adapter
-                recyclerView!!.adapter = AllocationAdapter(list, allocationListViewModel)
+                recyclerView!!.adapter = AllocationAdapter(list, allocationListViewModel,income!!)
 
             })
         }
@@ -65,7 +69,7 @@ class AllocationListActivity: AppCompatActivity() {
 
         // Add button function
         fab.setOnClickListener { view ->
-            val dialog = NewAllocationDialog(allocationListViewModel, id!!)
+            val dialog = NewAllocationDialog(income!!)
             dialog.show(supportFragmentManager, "")
         }
     }
@@ -81,7 +85,12 @@ class AllocationListActivity: AppCompatActivity() {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.view_stats ->{
+                //Pass the income id and initial amount to be shown in the stats panel
+                val dialog = IncomeGraphDialogFragment(income!!.id, income!!.initialAmount)
+                dialog.show(supportFragmentManager, "Stats")
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -102,5 +111,3 @@ class AllocationListActivity: AppCompatActivity() {
 //    }
 
 }
-
-

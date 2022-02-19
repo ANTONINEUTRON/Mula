@@ -13,12 +13,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mula.R
 import com.example.mula.data.model.Allocation
+import com.example.mula.data.model.Income
 import com.example.mula.dialog.NewAllocationDialog
 import com.example.mula.view_model.AllocationListViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
-class AllocationAdapter(private val allocationList: List<Allocation>, val allocationListViewModel: AllocationListViewModel)
+class AllocationAdapter(private val allocationList: List<Allocation>, val allocationListViewModel: AllocationListViewModel, val income: Income)
     :RecyclerView.Adapter<AllocationAdapter.ListItemHolder>() {
     private lateinit var context: Context
 
@@ -37,7 +38,7 @@ class AllocationAdapter(private val allocationList: List<Allocation>, val alloca
         holder: ListItemHolder, position: Int) {
 
         val allocation = allocationList[position]
-        holder.description.text = allocation.description
+        holder.description.text = allocation.label
 
         holder.amount.text = "$${allocation.amount}"
         // Show the first 15 characters of the actual note
@@ -60,7 +61,7 @@ class AllocationAdapter(private val allocationList: List<Allocation>, val alloca
         }
 
         holder.editButton.setOnClickListener {
-            val dialog = NewAllocationDialog(allocationListViewModel, allocation.balanceId, allocation)
+            val dialog = NewAllocationDialog(income, allocation)
             val activity = context as AppCompatActivity
             dialog.show(activity.supportFragmentManager, "Wetin do am")
         }
